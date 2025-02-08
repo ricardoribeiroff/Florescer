@@ -29,9 +29,9 @@
     <View
         android:id="@+id/divider4"
         android:layout_width="373dp"
-        android:layout_height="334dp"
+        android:layout_height="246dp"
         android:layout_gravity="center"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="300dp"
         android:background="@drawable/rounded_div"
         android:backgroundTint="#DEE3DD"
         app:layout_anchor="@+id/divider"
@@ -105,6 +105,15 @@
             android:text="Estoque"
             android:textColor="@color/black"
             android:textSize="22dp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="125dp"
+            android:text="Categoria"
+            android:textColor="@color/black"
+            android:textSize="22dp" />
     </FrameLayout>
 
     <!-- EDIT TEXT DE PRODUTO PREÇO ESTOQUE -->
@@ -152,6 +161,14 @@
                 android:inputType="number"
                 android:background="@drawable/edit_text_product" />
         </com.google.android.material.textfield.TextInputLayout>
+        <Spinner
+            android:id="@+id/spinnerCategorias"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:paddingTop="300dp"
+            android:paddingStart="10dp"/>
+
     </FrameLayout>
 
 

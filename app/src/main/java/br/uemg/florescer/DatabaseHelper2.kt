@@ -1,12 +1,11 @@
 package br.uemg.florescer
-
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.content.ContentValues
-import android.util.Log
 
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+
+class DatabaseHelper2(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_TABLE_USUARIOS)
@@ -27,7 +26,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "loja.db"
-        private const val DATABASE_VERSION = 3 // Aumente se fizer alterações nas tabelas
+        private const val DATABASE_VERSION = 2
 
         // Tabela Usuarios
         const val TABLE_USUARIOS = "usuarios"
@@ -60,7 +59,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome TEXT NOT NULL,
                 descricao TEXT,
-                preco REAL NOT NULL,  -- Alterado para REAL para suportar valores decimais
+                preco DECIMAL NOT NULL,
                 estoque INTEGER NOT NULL,
                 imagem TEXT,
                 fk_categoria INTEGER,
@@ -73,7 +72,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         private const val CREATE_TABLE_PEDIDOS = """
             CREATE TABLE $TABLE_PEDIDOS (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                valor_total REAL NOT NULL,
+                valor_total DECIMAL NOT NULL,
                 status TEXT NOT NULL,
                 fk_cliente INTEGER NOT NULL,
                 fk_usuario INTEGER NOT NULL,
@@ -88,7 +87,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             CREATE TABLE $TABLE_ITENS_PEDIDO (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 quantidade INTEGER NOT NULL,
-                preco_unitario REAL NOT NULL,
+                preco_unitario DECIMAL NOT NULL,
                 fk_pedido INTEGER NOT NULL,
                 fk_produto INTEGER NOT NULL,
                 FOREIGN KEY (fk_pedido) REFERENCES pedidos(id),
@@ -96,8 +95,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             );
         """
     }
-
-    // 🔹 Verifica se o usuário existe no banco (LOGIN)
     fun verificarLogin(email: String, senha: String): Boolean {
         val db = this.readableDatabase
         val query = "SELECT * FROM $TABLE_USUARIOS WHERE email = ? AND senha = ?"
@@ -109,66 +106,38 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         return usuarioExiste
     }
-
-    // 🔹 Insere um novo usuário no banco
     fun inserirUsuario(nome: String, email: String, senha: String, telefone: String?, endereco: String?, cargo: String?): Boolean {
         val db = this.writableDatabase
-        return try {
-            val values = ContentValues().apply {
-                put("nome", nome)
-                put("email", email)
-                put("senha", senha)
-                put("telefone", telefone)
-                put("endereco", endereco)
-                put("cargo", cargo)
-            }
-            val resultado = db.insert(TABLE_USUARIOS, null, values)
-            resultado != -1L
-        } catch (e: Exception) {
-            Log.e("DatabaseHelper", "Erro ao inserir usuário: ${e.message}")
-            false
-        } finally {
-            db.close()
+        val values = ContentValues().apply {
+            put("nome", nome)
+            put("email", email)
+            put("senha", senha)  //
+            put("telefone", telefone)
+            put("endereco", endereco)
+            put("cargo", cargo)
         }
-    }
 
-    // 🔹 Insere um novo produto no banco
+        val resultado = db.insert(TABLE_USUARIOS, null, values)
+        db.close()
+
+        return resultado != -1L  // Retorna `true` se a inserção foi bem-sucedida
+    }
     fun inserirProduto(nome: String, descricao: String?, preco: Double, estoque: Int, imagem: String?, fkCategoria: Int?): Boolean {
         val db = this.writableDatabase
-        return try {
-            val values = ContentValues().apply {
-                put("nome", nome)
-                put("descricao", descricao)
-                put("preco", preco)
-                put("estoque", estoque)
-                put("imagem", imagem)
-                put("fk_categoria", fkCategoria)
-            }
-            val resultado = db.insert(TABLE_PRODUTOS, null, values)
-            resultado != -1L
-        } catch (e: Exception) {
-            Log.e("DatabaseHelper", "Erro ao inserir produto: ${e.message}")
-            false
-        } finally {
-            db.close()
-        }
-    }
-
-    // 🔹 Busca todas as categorias para preencher o Spinner
-    fun getCategorias(): List<String> {
-        val categorias = mutableListOf<String>()
-        val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT nome FROM $TABLE_CATEGORIAS", null)
-
-        if (cursor.moveToFirst()) {
-            do {
-                val categoria = cursor.getString(0) // Obtém o valor da coluna "nome"
-                categorias.add(categoria)
-            } while (cursor.moveToNext())
+        val values = ContentValues().apply {
+            put("nome", nome)
+            put("descricao", descricao)
+            put("preco", preco)
+            put("estoque", estoque)
+            put("imagem", imagem)
+            put("fk_categoria", fkCategoria)
         }
 
-        cursor.close()
+        val resultado = db.insert(TABLE_PRODUTOS, null, values)
         db.close()
-        return categorias
+
+        return resultado != -1L // Retorna `true` se a inserção foi bem-sucedida
     }
+
+
 }
