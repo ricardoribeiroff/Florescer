@@ -1,12 +1,17 @@
 <resources>
     <string name="app_name">Florescer</string>
     <string name="title_activity_register">RegisterActivity</string>
+    <string name="florescer">Dropdown Menu</string>
+    <string name="select">Select Item</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="title_activity_catalogo_place_holder">CatalogoPlaceHolder</string>
     <string name="title_activity_product_register">ProductRegisterActivity</string>
+    <string name="title_activity_debug_img">debugImg</string>
+
+
 </resources>
