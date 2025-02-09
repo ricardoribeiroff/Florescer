@@ -22,9 +22,15 @@
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/imageViewSampleAvatar"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:src="@drawable/add_img"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
                 android:layout_width="wrap_content"
