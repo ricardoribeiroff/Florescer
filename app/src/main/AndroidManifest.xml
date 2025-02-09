@@ -15,18 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
         <activity
-            android:name=".ThankYouScreen"
-            android:exported="true" />
-        <activity
-            android:name=".Payment"
-            android:exported="true" />
-        <activity
-            android:name=".ProductDetails"
-            android:exported="true" />
-        <activity
             android:name=".RegisterProductActivity"
             android:exported="true"
             android:label="@string/title_activity_product_register"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".CatalogoPlaceHolder"
+            android:exported="false"
+            android:label="@string/title_activity_catalogo_place_holder"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".RegisterActivity"
@@ -38,16 +34,6 @@
             android:exported="true"> <!-- Adicionado para Android 12+ -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".CatalogoActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- Tela Principal -->

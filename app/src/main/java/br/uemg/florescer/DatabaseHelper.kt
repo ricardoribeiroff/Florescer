@@ -1,9 +1,9 @@
 package br.uemg.florescer
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.content.ContentValues
 import android.util.Log
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -16,6 +16,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.execSQL(CREATE_TABLE_ITENS_PEDIDO)
     }
 
+
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_ITENS_PEDIDO")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_PEDIDOS")
@@ -27,7 +28,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "loja.db"
-        private const val DATABASE_VERSION = 3 // Aumente se fizer alterações nas tabelas
+        private const val DATABASE_VERSION = 2 // Aumente se fizer alterações nas tabelas
 
         // Tabela Usuarios
         const val TABLE_USUARIOS = "usuarios"
@@ -153,22 +154,84 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             db.close()
         }
     }
-
-    // 🔹 Busca todas as categorias para preencher o Spinner
-    fun getCategorias(): List<String> {
-        val categorias = mutableListOf<String>()
+    // 🔹 Coleta os nomes das categorias em um array
+    fun getCategorias(): Array<String> {
+        val listaCategorias = ArrayList<String>()
         val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT nome FROM $TABLE_CATEGORIAS", null)
+        val query = "SELECT nome FROM $TABLE_CATEGORIAS"
 
+        try {
+            val cursor = db.rawQuery(query, null)
+
+            if (cursor.moveToFirst()) {
+                do {
+                    val nome = cursor.getString(cursor.getColumnIndexOrThrow("nome"))
+                    listaCategorias.add(nome)
+                } while (cursor.moveToNext())
+            }
+
+            cursor.close()
+        } catch (e: Exception) {
+            Log.e("DatabaseHelper", "Erro ao coletar categorias: ${e.message}")
+        } finally {
+            db.close()
+        }
+
+        return listaCategorias.toTypedArray()
+    }
+    fun getIdCategoria(nomeCategoria: String): Int? {
+        val db = this.readableDatabase
+        val query = "SELECT id FROM $TABLE_CATEGORIAS WHERE nome = ?"
+        val cursor = db.rawQuery(query, arrayOf(nomeCategoria))
+
+        var categoriaId: Int? = null
         if (cursor.moveToFirst()) {
-            do {
-                val categoria = cursor.getString(0) // Obtém o valor da coluna "nome"
-                categorias.add(categoria)
-            } while (cursor.moveToNext())
+            categoriaId = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
         }
 
         cursor.close()
         db.close()
-        return categorias
+
+        return categoriaId
     }
+    fun obterProdutoPorId(produtoId: Long): Produto? {
+        val db = readableDatabase
+        val cursor = db.query(
+            TABLE_PRODUTOS,
+            null,
+            "id = ?",
+            arrayOf(produtoId.toString()),
+            null,
+            null,
+            null
+        )
+
+        var produto: Produto? = null
+        if (cursor.moveToFirst()) {
+            val id = cursor.getLong(cursor.getColumnIndexOrThrow("id"))
+            val nome = cursor.getString(cursor.getColumnIndexOrThrow("nome"))
+            val descricao = cursor.getString(cursor.getColumnIndexOrThrow("descricao"))
+            val preco = cursor.getDouble(cursor.getColumnIndexOrThrow("preco"))
+            val estoque = cursor.getInt(cursor.getColumnIndexOrThrow("estoque"))
+            val imagem = cursor.getString(cursor.getColumnIndexOrThrow("imagem"))
+            val categoriaId = cursor.getLong(cursor.getColumnIndexOrThrow("fk_categoria"))
+
+            produto = Produto(id, nome, descricao, preco, estoque, imagem, categoriaId)
+        }
+        cursor.close()
+        db.close()
+
+        return produto
+    }
+
+    // Classe de dados para representar um produto
+    data class Produto(
+        val id: Long,
+        val nome: String,
+        val descricao: String,
+        val preco: Double,
+        val estoque: Int,
+        val imagem: String?,
+        val categoriaId: Long)
+
 }
