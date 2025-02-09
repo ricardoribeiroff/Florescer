@@ -60,7 +60,7 @@ class RegisterProductActivity : AppCompatActivity() {
                 if (dbHelper.inserirProduto(nomeProduto, descricaoProduto, precoProduto, estoqueProduto, caminhoImagem!!, categoriaId)) {
                     Toast.makeText(this, "Produto Cadastrado!", Toast.LENGTH_SHORT).show()
                     Log.d("RegisterProductActivity", "Produto cadastrado com sucesso")
-                    val intent = Intent(this, CatalogoPlaceHolder::class.java)
+                    val intent = Intent(this, CatalogoActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {

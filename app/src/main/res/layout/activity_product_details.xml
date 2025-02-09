@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    tools:context=".ProductDetails">
+    
+    <ImageView
+        android:id="@+id/btBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow"
+        android:layout_margin="20dp"/>
+
+    <ImageView
+        android:id="@+id/imgProduct"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        
+        <Button
+            android:id="@+id/btToDecrease"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:text="-"
+            android:textSize="18sp"
+            android:textColor="@color/dark_gray"
+            android:textStyle="bold"
+            app:cornerRadius="30dp"
+            android:backgroundTint="@color/white"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/txtAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btToIncrease"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:text="+"
+            android:textSize="18sp"
+            android:textColor="@color/dark_gray"
+            android:textStyle="bold"
+            app:cornerRadius="30dp"
+            android:backgroundTint="@color/white"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtProductName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rosas Vermelhas"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="start"
+            android:layout_margin="20dp"/>
+
+        <TextView
+            android:id="@+id/txtProductPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="R$ 96,00"
+            android:textColor="@color/red"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="end"
+            android:layout_margin="20dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Escolha uma das opções"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_margin="20dp"
+        android:textColor="@color/green"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/btBuque"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buque"
+            />
+
+        <RadioButton
+            android:id="@+id/btChocolate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buque/Chocolates"
+            />
+
+        <RadioButton
+            android:id="@+id/btCesta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buque/cesta de café"
+            />
+        
+    </RadioGroup>
+    
+    <Button
+        android:id="@+id/btConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirmar"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:backgroundTint="@color/green"
+        android:padding="10dp"
+        app:cornerRadius="10dp"
+        android:layout_margin="40dp"
+        />
+
+</LinearLayout>

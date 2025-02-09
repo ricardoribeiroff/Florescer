@@ -55,6 +55,6 @@ class debugImg : ComponentActivity() {
                 Toast.makeText(this, "Produto não encontrado.", Toast.LENGTH_SHORT).show()
             }
         }
-        exibirProduto(5)
+        exibirProduto(6)
     }
 }

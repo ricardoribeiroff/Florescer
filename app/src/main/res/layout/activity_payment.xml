@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    tools:context=".Payment">
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Formas de Pagamento"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_margin="20dp"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/container_radio_group"
+        android:layout_margin="10dp">
+
+        <RadioButton
+            android:id="@+id/btCreditCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cartão de Crédito"/>
+
+        <RadioButton
+            android:id="@+id/btPix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pix"/>
+
+    </RadioGroup>
+    
+    <EditText
+        android:id="@+id/editPix"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="celular ou e-mail"
+        android:background="@color/white"
+        android:padding="15dp"
+        android:layout_margin="20dp"
+        android:maxLines="1"
+        android:visibility="gone"
+        android:inputType="textEmailAddress"/>
+
+    <TextView
+        android:id="@+id/txtOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pedido"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/txtTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="@color/dark_gray"
+       android:gravity="start"
+        android:layout_margin="20dp"/>
+    
+    <Button
+        android:id="@+id/btPay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirmar"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:padding="15dp"
+        app:cornerRadius="15dp"
+        android:backgroundTint="@color/green"
+        android:layout_margin="20dp"/>
+
+
+</LinearLayout>

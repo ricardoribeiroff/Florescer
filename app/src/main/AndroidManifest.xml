@@ -4,8 +4,6 @@
     <!-- Permissões necessárias -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,20 +15,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
         <activity
-            android:name=".debugImg"
-            android:exported="true"
-            android:label="@string/title_activity_debug_img"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
-        <activity
             android:name=".RegisterProductActivity"
             android:exported="true"
             android:label="@string/title_activity_product_register"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
-            android:name=".CatalogoPlaceHolder"
-            android:exported="false"
+            android:name=".CatalogoActivity"
+            android:exported="true"
             android:label="@string/title_activity_catalogo_place_holder"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".debugImg"
+            android:exported="true"
+            android:label="@string/title_activity_debug_img" />
+        <activity
+            android:name=".ProductDetails"
+            android:exported="true" />
+        <activity
+            android:name=".Payment"
+            android:exported="true" />
+        <activity
+            android:name=".ThankYouScreen"
+            android:exported="true" />
         <activity
             android:name=".RegisterActivity"
             android:exported="true"
@@ -41,7 +47,6 @@
             android:exported="true"> <!-- Adicionado para Android 12+ -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- Tela Principal -->
