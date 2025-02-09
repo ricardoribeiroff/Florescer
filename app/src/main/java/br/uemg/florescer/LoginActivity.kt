@@ -42,9 +42,8 @@ class LoginActivity : ComponentActivity() {
                 val usuarioExiste = dbHelper.verificarLogin(email, senha)
                 if(usuarioExiste) {
                     Toast.makeText(this, "Login bem sucedido!", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, CatalogoPlaceHolder::class.java)
+                    val intent = Intent(this, CatalogoActivity::class.java)
                     startActivity(intent)
-                    finish()
                 } else {
                     Toast.makeText(this, "E-mail ou senha incorretos!", Toast.LENGTH_SHORT).show()
                 }

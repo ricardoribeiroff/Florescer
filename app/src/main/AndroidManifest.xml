@@ -20,10 +20,23 @@
             android:label="@string/title_activity_product_register"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
-            android:name=".CatalogoPlaceHolder"
-            android:exported="false"
+            android:name=".CatalogoActivity"
+            android:exported="true"
             android:label="@string/title_activity_catalogo_place_holder"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".debugImg"
+            android:exported="true"
+            android:label="@string/title_activity_debug_img" />
+        <activity
+            android:name=".ProductDetails"
+            android:exported="true" />
+        <activity
+            android:name=".Payment"
+            android:exported="true" />
+        <activity
+            android:name=".ThankYouScreen"
+            android:exported="true" />
         <activity
             android:name=".RegisterActivity"
             android:exported="true"
