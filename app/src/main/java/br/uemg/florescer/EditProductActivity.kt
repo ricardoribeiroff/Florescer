@@ -2,20 +2,21 @@ package br.uemg.florescer
 
 import android.app.Activity
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-class RegisterProductActivity : AppCompatActivity() {
+class EditProductActivity : AppCompatActivity() {
 
     private var caminhoImagem: String? = null  // Variável para armazenar o caminho da imagem
     private val PICK_IMAGE_REQUEST = 1
@@ -33,6 +34,15 @@ class RegisterProductActivity : AppCompatActivity() {
         val preco = findViewById<EditText>(R.id.preco)
         val estoque = findViewById<EditText>(R.id.estoque)
         val descricao = findViewById<EditText>(R.id.descricao)
+
+        // 🔹 Obter o ID do produto da Intent
+        val produtoId = intent.getLongExtra("produto_id", -1)
+
+        produto.setText(dbHelper.obterProdutoPorId(produtoId)?.nome)
+        preco.setText(dbHelper.obterProdutoPorId(produtoId)?.preco.toString())
+        estoque.setText(dbHelper.obterProdutoPorId(produtoId)?.estoque.toString())
+        spinnerCategoria.visibility = View.GONE
+        descricao.setText(dbHelper.obterProdutoPorId(produtoId)?.descricao)
 
 
         // 🔹 Buscar categorias no banco e preencher o Spinner
@@ -55,15 +65,12 @@ class RegisterProductActivity : AppCompatActivity() {
             val descricaoProduto = descricao.text.toString().trim()
             val cargo = intent.getStringExtra("cargo")
 
-            if (nomeProduto.isNotEmpty() && categoriaSelecionada != null && caminhoImagem != null) {
-                // Obter o ID da categoria selecionada
-                val categoriaId = dbHelper.getIdCategoria(categoriaSelecionada)
+            if (nomeProduto.isNotEmpty()) {
 
                 // Inserir o produto no banco de dados, incluindo o caminho da imagem
-                if (dbHelper.inserirProduto(nomeProduto, descricaoProduto, precoProduto, estoqueProduto, caminhoImagem!!, categoriaId)) {
-                    Toast.makeText(this, "Produto Cadastrado!", Toast.LENGTH_SHORT).show()
-                    Log.d("RegisterProductActivity", "Produto cadastrado com sucesso")
-
+                if (dbHelper.editarProduto(produtoId, nomeProduto, descricaoProduto, precoProduto, estoqueProduto, caminhoImagem)) {
+                    Toast.makeText(this, "Produto Editado!", Toast.LENGTH_SHORT).show()
+                    Log.d("RegisterProductActivity", "Produto editado com sucesso")
                     if (cargo == "admin") {
                         val intent = Intent(this, CatalogoActivityAdmin::class.java)
                         startActivity(intent)
@@ -74,9 +81,8 @@ class RegisterProductActivity : AppCompatActivity() {
                         Log.d("debug", "cargo $cargo.toString()")
                         finish()
                     }
-
                 } else {
-                    Toast.makeText(this, "Erro ao cadastrar produto!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Erro ao editar produto!", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(this, "Preencha todos os campos e adicione uma imagem!", Toast.LENGTH_SHORT).show()

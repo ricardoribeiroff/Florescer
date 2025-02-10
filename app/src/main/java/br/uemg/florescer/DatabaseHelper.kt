@@ -242,4 +242,39 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val imagem: String?,
         val categoriaId: Long
     )
+    fun deletarProduto(produtoId: Long): Boolean {
+        val db = this.writableDatabase
+        return try {
+            val resultado = db.delete(TABLE_PRODUTOS, "id = ?", arrayOf(produtoId.toString()))
+            resultado > 0
+        } catch (e: Exception) {
+            Log.e("DatabaseHelper", "Erro ao deletar produto: ${e.message}")
+            false
+        } finally {
+            db.close()
+        }
+    }
+    fun editarProduto(id: Long, nome: String, descricao: String?, preco: Double, estoque: Int, imagem: String?): Boolean {
+        val db = this.writableDatabase
+        return try {
+            val values = ContentValues().apply {
+                put("nome", nome)
+                put("descricao", descricao)
+                put("preco", preco)
+                put("estoque", estoque)
+                if(imagem != null) {
+                    put("imagem", imagem)
+                }
+            }
+            val resultado = db.update(TABLE_PRODUTOS, values, "id = ?", arrayOf(id.toString()))
+            resultado > 0
+        } catch (e: Exception) {
+            Log.e("DatabaseHelper", "Erro ao editar produto: ${e.message}")
+            false
+        } finally {
+            db.close()
+        }
+    }
+
+
 }
