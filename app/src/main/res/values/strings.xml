@@ -12,6 +12,7 @@
     <string name="title_activity_catalogo_place_holder">CatalogoPlaceHolder</string>
     <string name="title_activity_product_register">ProductRegisterActivity</string>
     <string name="title_activity_debug_img">debugImg</string>
+    <string name="title_activity_list_products">ListProductsActivity</string>
 
 
 </resources>

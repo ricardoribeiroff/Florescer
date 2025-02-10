@@ -1,6 +1,5 @@
 package br.uemg.florescer
 
-
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
@@ -10,17 +9,6 @@ import android.content.Intent
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.text
-import androidx.compose.ui.tooling.preview.Preview
-import br.uemg.florescer.ui.theme.FlorescerTheme
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,9 +29,15 @@ class LoginActivity : ComponentActivity() {
             if(email.isNotEmpty() && senha.isNotEmpty()) {
                 val usuarioExiste = dbHelper.verificarLogin(email, senha)
                 if(usuarioExiste) {
+                    val cargo = dbHelper.getCargoUsuario(email)
+                    if (cargo == "admin") {
+                        val intent = Intent(this, CatalogoActivityAdmin::class.java)
+                        startActivity(intent)
+                    } else {
+                        val intent = Intent(this, CatalogoActivity::class.java)
+                        startActivity(intent)
+                    }
                     Toast.makeText(this, "Login bem sucedido!", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, CatalogoActivity::class.java)
-                    startActivity(intent)
                 } else {
                     Toast.makeText(this, "E-mail ou senha incorretos!", Toast.LENGTH_SHORT).show()
                 }
@@ -65,5 +59,3 @@ class LoginActivity : ComponentActivity() {
         cadastrar.text = spannedText
     }
 }
-
-

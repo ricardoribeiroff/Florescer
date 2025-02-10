@@ -16,7 +16,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.execSQL(CREATE_TABLE_ITENS_PEDIDO)
     }
 
-
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_ITENS_PEDIDO")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_PEDIDOS")
@@ -28,9 +27,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "loja.db"
-        private const val DATABASE_VERSION = 2 // Aumente se fizer alterações nas tabelas
+        private const val DATABASE_VERSION = 2
 
-        // Tabela Usuarios
         const val TABLE_USUARIOS = "usuarios"
         private const val CREATE_TABLE_USUARIOS = """
             CREATE TABLE $TABLE_USUARIOS (
@@ -44,7 +42,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             );
         """
 
-        // Tabela Categorias
         const val TABLE_CATEGORIAS = "categorias"
         private const val CREATE_TABLE_CATEGORIAS = """
             CREATE TABLE $TABLE_CATEGORIAS (
@@ -54,14 +51,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             );
         """
 
-        // Tabela Produtos
         const val TABLE_PRODUTOS = "produtos"
         private const val CREATE_TABLE_PRODUTOS = """
             CREATE TABLE $TABLE_PRODUTOS (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome TEXT NOT NULL,
                 descricao TEXT,
-                preco REAL NOT NULL,  -- Alterado para REAL para suportar valores decimais
+                preco REAL NOT NULL,
                 estoque INTEGER NOT NULL,
                 imagem TEXT,
                 fk_categoria INTEGER,
@@ -69,7 +65,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             );
         """
 
-        // Tabela Pedidos
         const val TABLE_PEDIDOS = "pedidos"
         private const val CREATE_TABLE_PEDIDOS = """
             CREATE TABLE $TABLE_PEDIDOS (
@@ -83,7 +78,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             );
         """
 
-        // Tabela Itens Pedido
         const val TABLE_ITENS_PEDIDO = "itens_pedido"
         private const val CREATE_TABLE_ITENS_PEDIDO = """
             CREATE TABLE $TABLE_ITENS_PEDIDO (
@@ -98,7 +92,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         """
     }
 
-    // 🔹 Verifica se o usuário existe no banco (LOGIN)
     fun verificarLogin(email: String, senha: String): Boolean {
         val db = this.readableDatabase
         val query = "SELECT * FROM $TABLE_USUARIOS WHERE email = ? AND senha = ?"
@@ -111,7 +104,22 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return usuarioExiste
     }
 
-    // 🔹 Insere um novo usuário no banco
+    fun getCargoUsuario(email: String): String? {
+        val db = this.readableDatabase
+        val query = "SELECT cargo FROM $TABLE_USUARIOS WHERE email = ?"
+        val cursor = db.rawQuery(query, arrayOf(email))
+
+        var cargo: String? = null
+        if (cursor.moveToFirst()) {
+            cargo = cursor.getString(cursor.getColumnIndexOrThrow("cargo"))
+        }
+
+        cursor.close()
+        db.close()
+
+        return cargo
+    }
+
     fun inserirUsuario(nome: String, email: String, senha: String, telefone: String?, endereco: String?, cargo: String?): Boolean {
         val db = this.writableDatabase
         return try {
@@ -133,7 +141,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
     }
 
-    // 🔹 Insere um novo produto no banco
     fun inserirProduto(nome: String, descricao: String?, preco: Double, estoque: Int, imagem: String?, fkCategoria: Int?): Boolean {
         val db = this.writableDatabase
         return try {
@@ -154,7 +161,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             db.close()
         }
     }
-    // 🔹 Coleta os nomes das categorias em um array
+
     fun getCategorias(): Array<String> {
         val listaCategorias = ArrayList<String>()
         val db = this.readableDatabase
@@ -179,6 +186,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         return listaCategorias.toTypedArray()
     }
+
     fun getIdCategoria(nomeCategoria: String): Int? {
         val db = this.readableDatabase
         val query = "SELECT id FROM $TABLE_CATEGORIAS WHERE nome = ?"
@@ -194,6 +202,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         return categoriaId
     }
+
     fun obterProdutoPorId(produtoId: Long): Produto? {
         val db = readableDatabase
         val cursor = db.query(
@@ -224,7 +233,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return produto
     }
 
-    // Classe de dados para representar um produto
     data class Produto(
         val id: Long,
         val nome: String,
@@ -232,6 +240,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val preco: Double,
         val estoque: Int,
         val imagem: String?,
-        val categoriaId: Long)
-
+        val categoriaId: Long
+    )
 }

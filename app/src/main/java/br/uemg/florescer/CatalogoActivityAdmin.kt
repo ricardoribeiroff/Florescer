@@ -1,13 +1,14 @@
 package br.uemg.florescer
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import br.uemg.florescer.adapter.ProductAdapter
-import br.uemg.florescer.databinding.ActivityCatalogoBinding
+import br.uemg.florescer.databinding.ActivityCatalogoAdminBinding
 import br.uemg.florescer.listitems.Products
 import br.uemg.florescer.model.Product
 import kotlinx.coroutines.CoroutineScope
@@ -15,26 +16,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.launch
 
-class CatalogoActivity : AppCompatActivity() {
+class CatalogoActivityAdmin : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCatalogoBinding
+    private lateinit var binding: ActivityCatalogoAdminBinding
     private lateinit var productAdapter: ProductAdapter
     private val products = Products()
     private val productList: MutableList<Product> = mutableListOf()
     var clicked = false
 
-
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCatalogoBinding.inflate(layoutInflater)
+        binding = ActivityCatalogoAdminBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         window.statusBarColor = Color.parseColor("#E0E0E0")
 
         CoroutineScope(Dispatchers.IO).launch {
             products.getProducts().collectIndexed { index, value ->
-                for (p in value){
+                for (p in value) {
                     productList.add(p)
                 }
             }
@@ -109,5 +109,9 @@ class CatalogoActivity : AppCompatActivity() {
             }
         }
 
+        binding.btEditarProdutos.setOnClickListener{
+            val intent = Intent(this, ListProductsActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
