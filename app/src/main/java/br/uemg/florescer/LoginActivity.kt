@@ -1,5 +1,6 @@
 package br.uemg.florescer
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
@@ -25,13 +26,13 @@ class LoginActivity : ComponentActivity() {
         btnLogin.setOnClickListener {
             val email = editTextEmail.text.toString().trim()
             val senha = editTextSenha.text.toString().trim()
-
             if(email.isNotEmpty() && senha.isNotEmpty()) {
                 val usuarioExiste = dbHelper.verificarLogin(email, senha)
                 if(usuarioExiste) {
                     val cargo = dbHelper.getCargoUsuario(email)
                     if (cargo == "admin") {
                         val intent = Intent(this, CatalogoActivityAdmin::class.java)
+                        intent.putExtra("cargo", cargo)
                         startActivity(intent)
                     } else {
                         val intent = Intent(this, CatalogoActivity::class.java)

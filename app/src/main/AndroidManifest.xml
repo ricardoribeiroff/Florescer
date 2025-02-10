@@ -16,7 +16,7 @@
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
         <activity
             android:name=".ListProductsActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_list_products"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
@@ -31,6 +31,11 @@
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".CatalogoActivityAdmin"
+            android:exported="true"
+            android:label="@string/title_activity_catalogo_place_holder"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".EditProductActivity"
             android:exported="true"
             android:label="@string/title_activity_catalogo_place_holder"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
